@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymBeam XML feed viewer</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>GymBeam Products</h2>
+    
+    <div class="filter-controls" style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search..." style="flex: 2; margin-bottom: 0;">
+        
+        <select id="categorySelect" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <option value="">All Categories</option>
+            </select>
+    </div>
+    
+    <div id="loadingStatus" class="status-msg">Loading data...</div>
+
+    <div class="pagination-container" id="paginationControls" style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;"></div>
+    <div class="table-wrapper">
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Stock quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="module" src="js/script.js"></script>
+
+</body>
+</html>
