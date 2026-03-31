@@ -11,29 +11,31 @@
 <div class="container">
     <h2>GymBeam Products</h2>
     
-    <div class="filter-controls" style="display: flex; gap: 10px; margin-bottom: 20px;">
-        <div class="search-container" style="flex: 2;">
-            <input type="text" id="searchInput" placeholder="Search..." style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; background: white; font-size: 16px; box-sizing: border-box;">
+    <div class="filter-controls">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by name, brand or EAN...">
         </div>
         
-        <div class="dropdown" style="flex: 1;">
-            <button class="dropdown-toggle" id="categoryDropdownToggle" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; background: white; text-align: left; cursor: pointer;">
-                All Categories <span class="arrow">▼</span>
+        <div class="custom-dropdown" id="categoryContainer">
+            <button class="dropdown-toggle" id="categoryDropdownToggle">
+                <span class="toggle-text">All Categories</span>
+                <span class="arrow">▼</span>
             </button>
-            <div class="dropdown-menu" id="categoryDropdownMenu" style="display: none; position: absolute; background: white; border: 1px solid #ccc; border-radius: 5px; max-height: 200px; overflow-y: auto; z-index: 1000; width: calc(100% - 2px); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div class="dropdown-menu" id="categoryDropdownMenu">
                 <label class="dropdown-item">
                     <input type="checkbox" value="" id="allCategoriesCheckbox"> All Categories
                 </label>
-            </div>
+                </div>
         </div>
         
-        <div class="dropdown" style="flex: 1;">
-            <button class="dropdown-toggle" id="stockDropdownToggle" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; background: white; text-align: left; cursor: pointer;">
-                All Stock Status <span class="arrow">▼</span>
+        <div class="custom-dropdown" id="stockContainer">
+            <button class="dropdown-toggle" id="stockDropdownToggle">
+                <span class="toggle-text">All Stock Status</span>
+                <span class="arrow">▼</span>
             </button>
-            <div class="dropdown-menu" id="stockDropdownMenu" style="display: none; position: absolute; background: white; border: 1px solid #ccc; border-radius: 5px; max-height: 200px; overflow-y: auto; z-index: 1000; width: calc(100% - 2px); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div class="dropdown-menu" id="stockDropdownMenu">
                 <label class="dropdown-item">
-                    <input type="radio" name="stockStatus" value="" id="allStockRadio" checked> All Stock Status
+                    <input type="radio" name="stockStatus" value="" id="allStockRadio" checked> All Statuses
                 </label>
                 <label class="dropdown-item">
                     <input type="radio" name="stockStatus" value="in-stock" id="inStockRadio"> In Stock
@@ -47,7 +49,8 @@
     
     <div id="loadingStatus" class="status-msg">Loading data...</div>
 
-    <div class="pagination-container" id="paginationControls" style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;"></div>
+    <div class="pagination-container" id="paginationControls"></div>
+
     <div class="table-wrapper">
         <table id="productTable">
             <thead>
@@ -57,11 +60,10 @@
                     <th>EAN</th>
                     <th>Price</th>
                     <th>Stock</th>
-                    <th>Stock quantity</th>
+                    <th>Qty</th>
                 </tr>
             </thead>
-            <tbody>
-                </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </div>

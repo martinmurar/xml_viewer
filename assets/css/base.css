@@ -1,0 +1,32 @@
+:root {
+    --primary-color: #000000;
+    --border-color: #dddddd;
+    --hover-bg: #f9f9f9;
+    --text-color: #333333;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --input-height: 45px;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #fcfcfc;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-top: 0;
+    font-weight: 700;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
