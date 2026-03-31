@@ -23,13 +23,13 @@ function mapItemToProduct(item) {
     const variant = parseVariant(variantStr);
 
     return {
-        id: getTagValue("ITEM_ID", "N/A"),
         brand: getTagValue("BRAND"),
         name: getTagValue("NAME_COMMERCIAL", "Produkt"),
         price: getTagValue("PRICE_VAT", "0.00"),
         image: getTagValue("IMAGE"),
         url: getTagValue("URL", "#"),
         category: getTagValue("CATEGORY_NAME_LOCAL", "Ostatné"),
+        ean: getTagValue("EAN"),
         variant: variant,
         stockQuantity: stockQuantity,
         isInStock: availability === "in stock",
@@ -39,18 +39,103 @@ function mapItemToProduct(item) {
 
 
 function populateCategories(products) {
-    const select = document.getElementById("categorySelect");
+    const menu = document.getElementById("categoryDropdownMenu");
+    
+    // Clear existing items except "All Categories"
+    const allCategoriesItem = menu.querySelector('#allCategoriesCheckbox').parentElement;
+    menu.innerHTML = '';
+    menu.appendChild(allCategoriesItem);
     
     const categories = [...new Set(products.map(p => p.category))].sort();
 
     categories.forEach(cat => {
-        const option = document.createElement("option");
-        option.value = cat;
-        option.innerText = cat;
-        select.appendChild(option);
+        const label = document.createElement("label");
+        label.className = "dropdown-item";
+        
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = cat;
+        checkbox.addEventListener("change", handleCategoryChange);
+        
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(" " + cat));
+        menu.appendChild(label);
     });
 }
 
+function toggleCategoryDropdown() {
+    const menu = document.getElementById("categoryDropdownMenu");
+    const toggle = document.getElementById("categoryDropdownToggle");
+    
+    if (menu.style.display === "none" || menu.style.display === "") {
+        menu.style.display = "block";
+        toggle.querySelector('.arrow').textContent = '▲';
+    } else {
+        menu.style.display = "none";
+        toggle.querySelector('.arrow').textContent = '▼';
+    }
+}
+
+function handleCategoryChange(event) {
+    const allCheckbox = document.getElementById("allCategoriesCheckbox");
+    const checkboxes = document.querySelectorAll('#categoryDropdownMenu input[type="checkbox"]:not(#allCategoriesCheckbox)');
+    
+    if (event.target === allCheckbox) {
+        // If "All Categories" is checked, uncheck all others
+        checkboxes.forEach(cb => cb.checked = false);
+    } else {
+        // If any category is checked, uncheck "All Categories"
+        allCheckbox.checked = false;
+        
+        // If no categories are checked, check "All Categories"
+        const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+        if (!anyChecked) {
+            allCheckbox.checked = true;
+        }
+    }
+    
+    updateCategoryButtonText();
+    filterTable();
+}
+
+function toggleStockDropdown() {
+    const menu = document.getElementById("stockDropdownMenu");
+    const toggle = document.getElementById("stockDropdownToggle");
+    
+    if (menu.style.display === "none" || menu.style.display === "") {
+        menu.style.display = "block";
+        toggle.querySelector('.arrow').textContent = '▲';
+    } else {
+        menu.style.display = "none";
+        toggle.querySelector('.arrow').textContent = '▼';
+    }
+}
+
+function handleStockChange() {
+    const selectedRadio = document.querySelector('input[name="stockStatus"]:checked');
+    const toggle = document.getElementById("stockDropdownToggle");
+    
+    if (selectedRadio) {
+        const label = selectedRadio.parentElement.textContent.trim();
+        toggle.innerHTML = label + ' <span class="arrow">▼</span>';
+    }
+    
+    filterTable();
+}
+
+function updateCategoryButtonText() {
+    const toggle = document.getElementById("categoryDropdownToggle");
+    const checkboxes = document.querySelectorAll('#categoryDropdownMenu input[type="checkbox"]:not(#allCategoriesCheckbox)');
+    const checkedBoxes = Array.from(checkboxes).filter(cb => cb.checked);
+    
+    if (document.getElementById("allCategoriesCheckbox").checked || checkedBoxes.length === 0) {
+        toggle.innerHTML = 'All Categories <span class="arrow">▼</span>';
+    } else if (checkedBoxes.length === 1) {
+        toggle.innerHTML = checkedBoxes[0].value + ' <span class="arrow">▼</span>';
+    } else {
+        toggle.innerHTML = `${checkedBoxes.length} selected <span class="arrow">▼</span>`;
+    }
+}
 
 function renderPaginationControls(totalItems) {
     const controls = document.getElementById("paginationControls");
@@ -99,10 +184,10 @@ function renderTable(products) {
                     <small style="color: #888;">${p.brand} | ${p.category}</small><br>
                     <a href="${p.url}" target="_blank" style="text-decoration:none; color:black;"><strong>${p.name + " " + p.variant}</strong></a>
                 </td>
-                <td><small>${p.id}</small></td>
+                <td>${p.ean}</td>
                 <td class="price">${p.price} €</td>
                 <td style="color: ${stockColor}; font-weight: bold;">${p.statusText}</td>
-                <td class="price">${p.stockQuantity}</td>
+                <td>${p.stockQuantity}</td>
             </tr>
         `;
     }).join('');
@@ -117,17 +202,23 @@ async function filterTable() {
     clearTimeout(AppState.searchTimeout);
     
     const searchQuery = removeAccents(document.getElementById("searchInput").value.toUpperCase());
-    const categoryQuery = document.getElementById("categorySelect").value;
+    const selectedCategories = Array.from(document.querySelectorAll('#categoryDropdownMenu input[type="checkbox"]:checked:not(#allCategoriesCheckbox)')).map(cb => cb.value);
+    const selectedStockRadio = document.querySelector('input[name="stockStatus"]:checked');
+    const stockQuery = selectedStockRadio ? selectedStockRadio.value : "";
 
     AppState.searchTimeout = setTimeout(() => {
         AppState.filteredProducts = AppState.allProducts.filter(p => {
             const matchesSearch = removeAccents(p.name.toUpperCase()).includes(searchQuery) || 
                                   removeAccents(p.brand.toUpperCase()).includes(searchQuery) ||
-                                  removeAccents(p.id.toUpperCase()).includes(searchQuery);
+                                  removeAccents(p.ean.toUpperCase()).includes(searchQuery);
 
-            const matchesCategory = categoryQuery === "" || p.category === categoryQuery;
+            const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(p.category);
 
-            return matchesSearch && matchesCategory;
+            const matchesStock = stockQuery === "" || 
+                                 (stockQuery === "in-stock" && p.isInStock) || 
+                                 (stockQuery === "out-of-stock" && !p.isInStock);
+
+            return matchesSearch && matchesCategory && matchesStock;
         });
 
         AppState.currentPage = 1;
@@ -150,6 +241,15 @@ async function initializeApp() {
         AppState.allProducts = items.map(item => mapItemToProduct(item));
         
         populateCategories(AppState.allProducts);
+        
+        // Initialize "All Categories" as checked
+        document.getElementById("allCategoriesCheckbox").checked = true;
+        updateCategoryButtonText();
+        
+        // Initialize stock status
+        document.getElementById("allStockRadio").checked = true;
+        handleStockChange();
+        
         AppState.filteredProducts = AppState.allProducts;
         renderTable(AppState.allProducts);
 
@@ -162,5 +262,30 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeApp();
     
     document.getElementById("searchInput").addEventListener("keyup", filterTable);
-    document.getElementById("categorySelect").addEventListener("change", filterTable);
+    document.getElementById("categoryDropdownToggle").addEventListener("click", toggleCategoryDropdown);
+    document.getElementById("allCategoriesCheckbox").addEventListener("change", handleCategoryChange);
+    document.getElementById("stockDropdownToggle").addEventListener("click", toggleStockDropdown);
+    
+    // Add event listeners for stock radio buttons
+    document.querySelectorAll('input[name="stockStatus"]').forEach(radio => {
+        radio.addEventListener("change", handleStockChange);
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener("click", (event) => {
+        const categoryDropdown = document.querySelector('.dropdown');
+        const categoryMenu = document.getElementById("categoryDropdownMenu");
+        const stockDropdown = document.querySelectorAll('.dropdown')[1]; // Second dropdown
+        const stockMenu = document.getElementById("stockDropdownMenu");
+        
+        if (!categoryDropdown.contains(event.target)) {
+            categoryMenu.style.display = "none";
+            document.getElementById("categoryDropdownToggle").querySelector('.arrow').textContent = '▼';
+        }
+        
+        if (!stockDropdown.contains(event.target)) {
+            stockMenu.style.display = "none";
+            document.getElementById("stockDropdownToggle").querySelector('.arrow').textContent = '▼';
+        }
+    });
 });

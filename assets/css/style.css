@@ -24,16 +24,6 @@ h2 {
     padding-bottom: 10px; 
 }
 
-.search-box { 
-    margin-bottom: 20px; 
-    width: 100%; 
-    padding: 12px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    font-size: 16px; 
-    box-sizing: border-box; 
-}
-
 .table-wrapper { 
     max-height: 600px; 
     overflow-y: auto; 
@@ -98,4 +88,48 @@ tr:hover {
 #paginationControls button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+}
+
+#categorySelect {
+    min-height: 40px;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-toggle:hover,
+.search-container input:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-toggle:focus,
+.search-container input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.dropdown-menu {
+    margin-top: 2px;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 8px 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-item input[type="checkbox"],
+.dropdown-item input[type="radio"] {
+    margin-right: 8px;
 }
