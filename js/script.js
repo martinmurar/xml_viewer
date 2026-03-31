@@ -81,16 +81,27 @@ function handleCategoryChange(event) {
     const checkboxes = document.querySelectorAll('#categoryDropdownMenu input[type="checkbox"]:not(#allCategoriesCheckbox)');
     
     if (event.target === allCheckbox) {
-        // If "All Categories" is checked, uncheck all others
-        checkboxes.forEach(cb => cb.checked = false);
+        // Master checkbox clicked - check/uncheck all items
+        const isChecked = allCheckbox.checked;
+        checkboxes.forEach(cb => cb.checked = isChecked);
+        allCheckbox.indeterminate = false;
     } else {
-        // If any category is checked, uncheck "All Categories"
-        allCheckbox.checked = false;
+        // Individual item checkbox clicked - update master checkbox state
+        const totalItems = checkboxes.length;
+        const checkedItems = Array.from(checkboxes).filter(cb => cb.checked).length;
         
-        // If no categories are checked, check "All Categories"
-        const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
-        if (!anyChecked) {
+        if (checkedItems === 0) {
+            // No items checked
+            allCheckbox.checked = false;
+            allCheckbox.indeterminate = false;
+        } else if (checkedItems === totalItems) {
+            // All items checked
             allCheckbox.checked = true;
+            allCheckbox.indeterminate = false;
+        } else {
+            // Some items checked - show indeterminate state
+            allCheckbox.checked = false;
+            allCheckbox.indeterminate = true;
         }
     }
     
@@ -212,7 +223,7 @@ async function filterTable() {
                                   removeAccents(p.brand.toUpperCase()).includes(searchQuery) ||
                                   removeAccents(p.ean.toUpperCase()).includes(searchQuery);
 
-            const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(p.category);
+            const matchesCategory = selectedCategories.length > 0 && selectedCategories.includes(p.category);
 
             const matchesStock = stockQuery === "" || 
                                  (stockQuery === "in-stock" && p.isInStock) || 
@@ -242,8 +253,10 @@ async function initializeApp() {
         
         populateCategories(AppState.allProducts);
         
-        // Initialize "All Categories" as checked
+        // Initialize all category checkboxes as checked
+        document.querySelectorAll('#categoryDropdownMenu input[type="checkbox"]:not(#allCategoriesCheckbox)').forEach(cb => cb.checked = true);
         document.getElementById("allCategoriesCheckbox").checked = true;
+        document.getElementById("allCategoriesCheckbox").indeterminate = false;
         updateCategoryButtonText();
         
         // Initialize stock status

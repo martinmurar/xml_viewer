@@ -39,3 +39,20 @@
 .dropdown-item { display: flex; align-items: center; padding: 10px 15px; cursor: pointer; font-size: 13px; border-bottom: 1px solid #eee; }
 .dropdown-item:hover { background-color: var(--hover-bg); }
 .dropdown-item input { margin-right: 10px; }
+
+/* Master checkbox indeterminate state styling */
+#allCategoriesCheckbox:indeterminate {
+    background-color: #0066cc;
+    border-color: #0066cc;
+}
+
+#allCategoriesCheckbox:indeterminate::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 2px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
