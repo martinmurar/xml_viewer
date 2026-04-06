@@ -55,7 +55,7 @@ export function renderPaginationControls(totalItems) {
     const prevBtn = document.createElement("button");
     prevBtn.innerText = "Previous";
     prevBtn.disabled = AppState.currentPage === 1;
-    prevBtn.onclick = () => { AppState.currentPage--; renderTable(AppState.filteredProducts); window.scrollTo(0,0); };
+    prevBtn.onclick = () => { AppState.currentPage--; renderTable(AppState.sortedProducts); window.scrollTo(0,0); };
     controls.appendChild(prevBtn);
 
     // current
@@ -68,6 +68,6 @@ export function renderPaginationControls(totalItems) {
     const nextBtn = document.createElement("button");
     nextBtn.innerText = "Next";
     nextBtn.disabled = AppState.currentPage === totalPages;
-    nextBtn.onclick = () => { AppState.currentPage++; renderTable(AppState.filteredProducts); window.scrollTo(0,0); };
+    nextBtn.onclick = () => { AppState.currentPage++; renderTable(AppState.sortedProducts); window.scrollTo(0,0); };
     controls.appendChild(nextBtn);
 }

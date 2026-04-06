@@ -1,6 +1,8 @@
 import {AppState} from "./state.js";
 import {removeAccents} from "./utils.js";
 import {renderTable} from "./ui.js";
+import {applySorting} from "./sort.js";
+
 
 export async function filterTable() {
     clearTimeout(AppState.searchTimeout);
@@ -26,6 +28,6 @@ export async function filterTable() {
         });
 
         AppState.currentPage = 1;
-        renderTable(AppState.filteredProducts);
+        applySorting();
     }, 250);
 }

@@ -23,9 +23,6 @@ export function mapItemToProduct(item) {
     const stockQtyStr = getTagValue("STOCK_QUANTITY", "0");
     const stockQuantity = parseInt(stockQtyStr, 10) || 0;
 
-    const variantStr = getTagValue("PRODUCTNO", "");
-    const variant = parseVariant(variantStr);
-
     const paramNames = new Set(["flavor", "size", "color", "tablets", "capsules", "mass_grams_g"]);
     const params = getParamValue(paramNames, item);
 
@@ -37,7 +34,6 @@ export function mapItemToProduct(item) {
         url: getTagValue("URL", "#"),
         category: getTagValue("CATEGORY_NAME_LOCAL", "Ostatné"),
         ean: getTagValue("EAN"),
-        variant: variant,
         stockQuantity: stockQuantity,
         isInStock: availability === "in stock",
         statusText: availability,

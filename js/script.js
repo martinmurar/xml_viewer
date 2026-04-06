@@ -4,6 +4,7 @@ import {renderTable} from "./ui.js";
 import {filterTable} from "./filter.js";
 import {populateCategories, updateCategoryButtonText, toggleCategoryDropdown, handleCategoryChange} from "./category.js";
 import {toggleStockDropdown, handleStockChange} from "./stock.js";
+import {initializeSorting, applySorting} from "./sort.js";
 
 
 
@@ -33,7 +34,7 @@ async function initializeApp() {
         handleStockChange();
         
         AppState.filteredProducts = AppState.allProducts;
-        renderTable(AppState.allProducts);
+        applySorting();
 
     } catch (error) {
         status.innerHTML = `<b style="color:red;">Chyba: ${error.message}</b>`;
@@ -52,6 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('input[name="stockStatus"]').forEach(radio => {
         radio.addEventListener("change", handleStockChange);
     });
+
+    // Initialize sorting
+    initializeSorting();
     
     // Close dropdowns when clicking outside
     document.addEventListener("click", (event) => {

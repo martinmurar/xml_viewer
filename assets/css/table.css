@@ -5,6 +5,10 @@
 
 #productTable { width: 100%; border-collapse: collapse; background: white; }
 #productTable th { background-color: var(--primary-color); color: white; text-align: left; padding: 15px; font-size: 14px; text-transform: uppercase; }
+#productTable th.sortable { cursor: pointer; user-select: none; position: relative; }
+#productTable th.sortable:hover { background-color: #AAAAAA; filter: brightness(0.9); }
+.sort-indicator { margin-left: 5px; font-size: 12px; opacity: 0.7; }
+.sort-indicator.active { opacity: 1; }
 #productTable td { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; font-size: 14px; }
 #productTable tr:hover { background-color: #fcfcfc; }
 
