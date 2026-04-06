@@ -1,0 +1,32 @@
+body {
+  font-family: "Arial", sans-serif;
+}
+
+#drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  margin: 2rem auto;
+
+  width: 500px;
+  max-width: 100%;
+  height: 200px;
+  padding: 1em;
+  border: 2px dashed #cccccc;
+  border-radius: 4px;
+  color: slategray;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background-color: #fafafa;
+}
+
+#drop-zone:hover {
+  border-color: #999;
+  background-color: #f0f0f0;
+}
+
+#file-input {
+  display: none;
+}

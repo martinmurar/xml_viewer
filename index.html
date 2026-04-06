@@ -8,7 +8,13 @@
 </head>
 <body>
 
-<div class="container">
+<h1 style="text-align: center;">GymBeam XML feed viewer</h1>
+<label id="drop-zone">
+    Drop XML file here, or click to upload.
+<input type="file" id="file-input" multiple accept=".xml, text/xml" hidden />
+</label>
+
+<div class="container" id="mainContent" style="display:none;">
     <h2>GymBeam Products</h2>
     
     <div class="filter-controls">
