@@ -77,6 +77,10 @@ function sortProducts(products, sortField, sortDirection) {
                 aValue = parseFloat(a.price) || 0;
                 bValue = parseFloat(b.price) || 0;
                 break;
+            case 'stock':
+                aValue = a.isInStock ? 1 : 0;
+                bValue = b.isInStock ? 1 : 0;
+                break;
             case 'quantity':
                 aValue = a.stockQuantity;
                 bValue = b.stockQuantity;
