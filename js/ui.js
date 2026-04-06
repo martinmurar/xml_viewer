@@ -1,5 +1,17 @@
 import {AppState, ITEMS_PER_PAGE} from "./state.js";
 
+
+function productParamsToString(p) {
+    const params = [];
+    if (p.flavor) params.push(p.flavor);
+    if (p.size) params.push(p.size);
+    if (p.color) params.push(p.color);
+    if (p.tablets) params.push(p.tablets);
+    if (p.capsules) params.push(p.capsules);
+    if (p.mass_grams_g) params.push(p.mass_grams_g);
+    return params.join(" | ");
+}
+
 export function renderTable(products) {
     const tbody = document.querySelector("#productTable tbody");
     const status = document.getElementById("loadingStatus");
@@ -15,7 +27,8 @@ export function renderTable(products) {
                 <td><img src="${p.image}" class="img-thumb" loading="lazy"></td>
                 <td class="product-name">
                     <small style="color: #888;">${p.brand} | ${p.category}</small><br>
-                    <a href="${p.url}" target="_blank" style="text-decoration:none; color:black;"><strong>${p.name + " " + p.variant}</strong></a>
+                    <a href="${p.url}" target="_blank" style="text-decoration:none; color:black;"><strong>${p.name}</strong></a><br>
+                    <small style="color: #888;">${productParamsToString(p)}</small><br>
                 </td>
                 <td>${p.ean}</td>
                 <td class="price">${p.price} €</td>

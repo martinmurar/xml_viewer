@@ -1,5 +1,19 @@
 import { parseVariant } from "./utils.js";
 
+
+function getParamValue(names, item) {
+    const result = {};
+    const params = item.getElementsByTagName("PARAM");
+    for (let param of params) {
+        const paramName = param.getElementsByTagName("NAME")[0]?.textContent;
+        if (names.has(paramName)) {
+            result[paramName] = param.getElementsByTagName("VALUE")[0]?.textContent;
+        }
+    }
+    return result;
+}
+
+
 export function mapItemToProduct(item) {
     const getTagValue = (tagName, fallback = "") => 
         item.getElementsByTagName(tagName)[0]?.textContent || fallback;
@@ -12,6 +26,9 @@ export function mapItemToProduct(item) {
     const variantStr = getTagValue("PRODUCTNO", "");
     const variant = parseVariant(variantStr);
 
+    const paramNames = new Set(["flavor", "size", "color", "tablets", "capsules", "mass_grams_g"]);
+    const params = getParamValue(paramNames, item);
+
     return {
         brand: getTagValue("BRAND"),
         name: getTagValue("NAME_COMMERCIAL", "Produkt"),
@@ -23,6 +40,7 @@ export function mapItemToProduct(item) {
         variant: variant,
         stockQuantity: stockQuantity,
         isInStock: availability === "in stock",
-        statusText: availability
+        statusText: availability,
+        ...params
     };
 }

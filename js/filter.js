@@ -15,7 +15,7 @@ export async function filterTable() {
             const matchesSearch = removeAccents(p.name.toUpperCase()).includes(searchQuery) || 
                                   removeAccents(p.brand.toUpperCase()).includes(searchQuery) ||
                                   removeAccents(p.ean.toUpperCase()).includes(searchQuery);
-
+                                  
             const matchesCategory = selectedCategories.length > 0 && selectedCategories.includes(p.category);
 
             const matchesStock = stockQuery === "" || 
