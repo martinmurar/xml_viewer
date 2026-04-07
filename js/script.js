@@ -24,7 +24,14 @@ function loadLocalXML() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    initializeDragDrop();
+    if (LOAD_LOCAL_XML) {
+        // Hide drop zone completely when loading local XML
+        document.getElementById("drop-zone").style.display = 'none';
+        loadLocalXML();
+    } else {
+        initializeDragDrop();
+    }
+    
     document.getElementById("searchInput").addEventListener("keyup", filterTable);
     document.getElementById("categoryDropdownToggle").addEventListener("click", toggleCategoryDropdown);
     document.getElementById("allCategoriesCheckbox").addEventListener("change", handleCategoryChange);
