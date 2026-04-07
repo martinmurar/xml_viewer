@@ -1,3 +1,17 @@
+import { XML_FILE } from "../core/state.js";
+
+export function loadLocalXML() {
+        fetch(XML_FILE)
+        .then(response => response.text())
+        .then(xmlText => processXML(xmlText))
+        .catch(error => {
+            const status = document.getElementById("loadingStatus");
+            status.textContent = `Loading error: ${error.message}`;
+            status.style.color = 'red';
+        });
+}
+
+
 export async function processXML(xmlText) {
     const status = document.getElementById("loadingStatus");
     try {
@@ -14,11 +28,11 @@ export async function processXML(xmlText) {
             throw new Error("No products found in XML");
         }
 
-        const { AppState } = await import("./state.js");
+        const { AppState, XML_FILE } = await import("../core/state.js");
         const { mapItemToProduct } = await import("./mapper.js");
-        const { populateCategories, updateCategoryButtonText } = await import("./category.js");
-        const { handleStockChange } = await import("./stock.js");
-        const { applySorting } = await import("./sort.js");
+        const { populateCategories, updateCategoryButtonText } = await import("../ui/category.js");
+        const { handleStockChange } = await import("../ui/stock.js");
+        const { applySorting } = await import("../ui/sort.js");
 
         AppState.allProducts = items.map(item => mapItemToProduct(item));
         AppState.sortField = null;

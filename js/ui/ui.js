@@ -1,5 +1,5 @@
-import {AppState, ITEMS_PER_PAGE} from "./state.js";
-import {productParamsToString} from "./utils.js";
+import {AppState, ITEMS_PER_PAGE} from "../core/state.js";
+import {productParamsToString} from "../core/utils.js";
 
 
 export function renderTable(products) {

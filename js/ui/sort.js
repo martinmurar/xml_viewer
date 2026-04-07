@@ -1,6 +1,6 @@
-import { AppState } from "./state.js";
+import { AppState } from "../core/state.js";
 import { renderTable } from "./ui.js";
-import { removeAccents } from "./utils.js";
+import { removeAccents } from "../core/utils.js";
 
 export function initializeSorting() {
     const sortableHeaders = document.querySelectorAll('.sortable');

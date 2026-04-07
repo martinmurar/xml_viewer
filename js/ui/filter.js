@@ -1,5 +1,5 @@
-import {AppState} from "./state.js";
-import {removeAccents} from "./utils.js";
+import {AppState} from "../core/state.js";
+import {removeAccents} from "../core/utils.js";
 import {renderTable} from "./ui.js";
 import {applySorting} from "./sort.js";
 
