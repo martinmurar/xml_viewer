@@ -30,8 +30,10 @@ export function updateCategoryButtonText() {
     const checkboxes = document.querySelectorAll('#categoryDropdownMenu input[type="checkbox"]:not(#allCategoriesCheckbox)');
     const checkedBoxes = Array.from(checkboxes).filter(cb => cb.checked);
     
-    if (document.getElementById("allCategoriesCheckbox").checked || checkedBoxes.length === 0) {
+    if (document.getElementById("allCategoriesCheckbox").checked) {
         toggle.innerHTML = 'All Categories <span class="arrow">▼</span>';
+    } else if (checkedBoxes.length === 0) {
+        toggle.innerHTML = 'No Categories <span class="arrow">▼</span>';
     } else if (checkedBoxes.length === 1) {
         toggle.innerHTML = checkedBoxes[0].value + ' <span class="arrow">▼</span>';
     } else {

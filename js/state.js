@@ -7,6 +7,6 @@ export const AppState = {
     sortedProducts: [],
     searchTimeout: null,
     currentPage: 1,
-    sortField: null, // 'name', 'price', 'quantity'
+    sortField: null, // 'name', 'price', 'stock', 'quantity'
     sortDirection: 'asc' // 'asc' or 'desc'
 };

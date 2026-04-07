@@ -1,16 +1,6 @@
 import {AppState, ITEMS_PER_PAGE} from "./state.js";
+import {productParamsToString} from "./utils.js";
 
-
-function productParamsToString(p) {
-    const params = [];
-    if (p.flavor) params.push(p.flavor);
-    if (p.size) params.push(p.size);
-    if (p.color) params.push(p.color);
-    if (p.tablets) params.push(p.tablets);
-    if (p.capsules) params.push(p.capsules);
-    if (p.mass_grams_g) params.push(p.mass_grams_g);
-    return params.join(" | ");
-}
 
 export function renderTable(products) {
     const tbody = document.querySelector("#productTable tbody");

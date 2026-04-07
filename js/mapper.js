@@ -1,6 +1,3 @@
-import { parseVariant } from "./utils.js";
-
-
 function getParamValue(names, item) {
     const result = {};
     const params = item.getElementsByTagName("PARAM");
