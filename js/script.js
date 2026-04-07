@@ -42,24 +42,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     
-    // Close dropdowns when clicking outside
+    // Close dropdowns when clicking anywhere on the screen
     document.addEventListener("click", (event) => {
         const categoryToggle = document.getElementById("categoryDropdownToggle");
-        const categoryDropdown = categoryToggle?.closest('.dropdown');
         const categoryMenu = document.getElementById("categoryDropdownMenu");
 
         const stockToggle = document.getElementById("stockDropdownToggle");
-        const stockDropdown = stockToggle?.closest('.dropdown');
         const stockMenu = document.getElementById("stockDropdownMenu");
         
-        if (categoryDropdown && !categoryDropdown.contains(event.target)) {
+        // Close category dropdown if click is outside it
+        if (categoryMenu && !categoryMenu.contains(event.target) && event.target !== categoryToggle && !categoryToggle.contains(event.target)) {
             categoryMenu.style.display = "none";
-            categoryToggle.querySelector('.arrow').textContent = '▼';
+            if (categoryToggle.querySelector('.arrow')) {
+                categoryToggle.querySelector('.arrow').textContent = '▼';
+            }
         }
         
-        if (stockDropdown && !stockDropdown.contains(event.target)) {
+        // Close stock dropdown if click is outside it
+        if (stockMenu && !stockMenu.contains(event.target) && event.target !== stockToggle && !stockToggle.contains(event.target)) {
             stockMenu.style.display = "none";
-            stockToggle.querySelector('.arrow').textContent = '▼';
+            if (stockToggle.querySelector('.arrow')) {
+                stockToggle.querySelector('.arrow').textContent = '▼';
+            }
         }
     });
 });
