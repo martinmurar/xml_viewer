@@ -1,4 +1,5 @@
-export const XML_FILE = "assets/data/xml_sk.xml";
+// export const XML_FILE = "assets/data/xml_sk.xml";
+export const XML_FILE = "assets/data/xml_sk_feed_8426.xml";
 export const ITEMS_PER_PAGE = 100;
 
 export const AppState = {
