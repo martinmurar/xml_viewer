@@ -4,6 +4,8 @@ import {renderTable} from "./ui.js";
 import {applySorting} from "./sort.js";
 
 
+const SEARCH_EVERY_WORD = false; // Set to false to search for the entire query as one item
+
 export async function filterTable() {
     clearTimeout(AppState.searchTimeout);
     
@@ -14,13 +16,22 @@ export async function filterTable() {
 
     AppState.searchTimeout = setTimeout(() => {
         AppState.filteredProducts = AppState.allProducts.filter(p => {
-            // Split search query into words and check if any word matches
-            const searchWords = searchQuery.split(/\s+/).filter(word => word.length > 0);
-            const matchesSearch = searchWords.length === 0 || searchWords.some(word => 
-                removeAccents(p.name.toUpperCase()).includes(word) || 
-                removeAccents(p.brand.toUpperCase()).includes(word) ||
-                removeAccents(p.ean.toUpperCase()).includes(word)
-            );
+            let matchesSearch;
+            if (SEARCH_EVERY_WORD) {
+                // Split search query into words and check if any word matches
+                const searchWords = searchQuery.split(/\s+/).filter(word => word.length > 0);
+                matchesSearch = searchWords.length === 0 || searchWords.some(word => 
+                    removeAccents(p.name.toUpperCase()).includes(word) || 
+                    removeAccents(p.brand.toUpperCase()).includes(word) ||
+                    removeAccents(p.ean.toUpperCase()).includes(word)
+                );
+            } else {
+                // Search for the entire query as one item
+                matchesSearch = searchQuery === "" || 
+                    removeAccents(p.name.toUpperCase()).includes(searchQuery) || 
+                    removeAccents(p.brand.toUpperCase()).includes(searchQuery) ||
+                    removeAccents(p.ean.toUpperCase()).includes(searchQuery);
+            }
                                   
             const matchesCategory = selectedCategories.length > 0 && selectedCategories.includes(p.category);
 
