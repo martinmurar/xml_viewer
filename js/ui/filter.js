@@ -23,7 +23,8 @@ export async function filterTable() {
                 matchesSearch = searchWords.length === 0 || searchWords.some(word => 
                     removeAccents(p.name.toUpperCase()).includes(word) || 
                     removeAccents(p.brand.toUpperCase()).includes(word) ||
-                    removeAccents(p.ean.toUpperCase()).includes(word)
+                    removeAccents(p.ean.toUpperCase()).includes(word) ||
+                    removeAccents(p.sku.toUpperCase()).includes(word)
                 );
             } else {
                 // Search for the entire query as one item

@@ -31,6 +31,7 @@ export function mapItemToProduct(item) {
         url: getTagValue("URL", "#"),
         category: getTagValue("CATEGORY_NAME_LOCAL", "Ostatné"),
         ean: getTagValue("EAN"),
+        sku: getTagValue("PRODUCTNO"),
         stockQuantity: stockQuantity,
         isInStock: availability === "in stock",
         statusText: availability,

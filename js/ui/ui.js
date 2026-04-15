@@ -21,6 +21,7 @@ export function renderTable(products) {
                     <small style="color: #888;">${productParamsToString(p)}</small><br>
                 </td>
                 <td>${p.ean}</td>
+                <td>${p.sku}</td>
                 <td class="price">${p.price} €</td>
                 <td style="color: ${stockColor}; font-weight: bold;">${p.statusText}</td>
                 <td>${p.stockQuantity}</td>
